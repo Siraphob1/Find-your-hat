@@ -1,5 +1,5 @@
 // Please copy and paste your GitHub Repo on line 2 (optional)
-// <GitHub Repo>
+// <GitHub Repo> : https://github.com/Siraphob1/Find-your-hat
 
 // JavaScript Assessment Rubric: https://generation.instructure.com/courses/2342/assignments/143783
 
@@ -40,7 +40,7 @@ class Field{
         }
     }
 
-    //step 2 Start game
+    //step 2 Start popup when run game
     StartGame(){
         clear()
         console.log('\nWelcome to Find-Your-Hat Game 🧢');
@@ -49,7 +49,7 @@ class Field{
         if(input_player === 'p' || input_player === 'P') this.is_playing = true;     
     }        
          
-    //step 3 player define row & column
+    //step 3 player input row & column
     DefineFieldSize(){
         let isformat_row = false;
         let isformat_column = false;
@@ -102,14 +102,14 @@ class Field{
         }
     }
 
-    //step 7 set default position
+    //step 7 set player position
     SetPositionPlayer(){
         if(this.is_playing){
             this.fieldgame[this.player.position_y][this.player.position_x] = icon_Character
         }
     }
 
-    //step 7.1 random player
+    //step 7.1 random player position when start
     Random_Player(){
         let position_x = Math.floor(Math.random() * (this.field_column));
         let position_y = Math.floor(Math.random() * (this.field_row));
@@ -118,7 +118,7 @@ class Field{
         this.SetPositionPlayer()
     }
 
-    //step 8 random hat
+    //step 8 random hat position when start
     Random_Hat(){
         let position_x = 0;
         let position_y = 0;
@@ -176,7 +176,7 @@ class Field{
 
     }
 
-    //step 10 play game
+    //step 10 play control input game
     Play(){
         while(this.is_playing){            
             
@@ -217,7 +217,7 @@ class Field{
         }
     }
 
-    //step 11 help 
+    //step 11 help  to describe for current position & each-icon
     OptionalHelp(){
         console.log('\nHelp')
         console.log(`   current your posiotion: [${this.player.position_y} , ${this.player.position_x}]`)
@@ -227,7 +227,7 @@ class Field{
         console.log(`   hole: ${icon_hole}`)        
     }
 
-    //step 12 Playermove
+    //step 12 Playermove when get input from player
     PlayerMove(x_value , y_value){
 
         let new_posx = this.player.position_x + x_value;
@@ -239,7 +239,7 @@ class Field{
         this.player.position_y = new_posy;
     }
 
-    //step 13 check detect target
+    //step 13 check target before move
     CheckDetect(new_posx , new_posy){
         clear()
         if(new_posx < 0 || new_posx >this.fieldgame[0].length-1){
@@ -280,7 +280,7 @@ class Field{
         this.fieldgame[this.player.position_y][this.player.position_x] = icon_field
     }
 
-    //step 15 group
+    //step 15 group Method field
     SettingField(){
         this.DefineFieldSize()
         this.CreateField_Column()
@@ -293,7 +293,7 @@ class Field{
         this.SetTrap()
     }
 
-    //step sum  total method
+    //step sum total method in game 
     GameController(){
         this.StartGame()
         if(this.is_playing){
