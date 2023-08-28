@@ -106,6 +106,15 @@ class Field{
         }
     }
 
+    //step 7.1 random player
+    Random_Player(){
+        let position_x = Math.floor(Math.random() * (this.field_column));
+        let position_y = Math.floor(Math.random() * (this.field_row));
+        this.player.position_x = position_x;
+        this.player.position_y = position_y;
+        this.SetPositionPlayer()
+    }
+
     //step 8 random hat
     Random_Hat(){
         let position_x = 0;
@@ -258,7 +267,7 @@ class Field{
             this.DefineFieldSize()
             this.CreateField_Column()
             this.CreateField_Row()
-            this.SetPositionPlayer()
+            this.Random_Player()            
             this.Random_Hat()
             this.Random_Trap()
             clear()
