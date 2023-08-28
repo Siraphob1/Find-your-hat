@@ -14,11 +14,11 @@
 const prompt = require('prompt-sync')({sigint: true});
 const clear = require('clear-screen');
 
-//Set symbol 
-const symbol_hat = '^';
-const symbol_hole = 'O';
-const symbol_field = '░';
-const symbol_Character = '*';
+//Set icon 
+const icon_hat = '🥽';
+const icon_hole = '🚧';
+const icon_field = '🟦';
+const icon_Character = '😀';
 
 
 //Step1 Create class Field
@@ -54,7 +54,7 @@ class Field{
     CreateField_Column(){
         let each_row = []
         for (let i = 0; i < this.field_column; i++) {
-            each_row.push(symbol_field)            
+            each_row.push(icon_field)            
         }
         return each_row
     }
@@ -68,26 +68,107 @@ class Field{
 
     //step 6 Display Map
     PrintMap(){
+        clear()
         for (let i = 0; i < this.fieldgame.length; i++) {
             console.log(this.fieldgame[i].join(''))            
         }
     }
 
-    
+    //step 7 set default position
+    SetPositionPlayer(){
+        this.fieldgame[this.player.position_y][this.player.position_x] = icon_Character
+    }
+
+    //step 8 random hat
+    Random_Hat(){
+        let position_x =  Math.floor(Math.random() * (this.field_column));
+        let position_y =  Math.floor(Math.random() * (this.field_row));
+        while(position_x !== this.player.position_x && position_y !== this.player.position_y){           
+            console.log(`position_random x: ${position_x}`);
+            console.log(`position_random y: ${position_y}`);
+            break
+        }
+        
+        this.fieldgame[position_y][position_x] = icon_hat;
+    }
+
+    //step 9 random trap
+    Random_Trap(){
+        let position_x =  Math.floor(Math.random() * (this.field_column));
+        let position_y =  Math.floor(Math.random() * (this.field_row));
+        while(this.fieldgame[position_y][position_x] === icon_field ){
+            this.fieldgame[position_y][position_x] = icon_hole
+        }
+    }
+
+    //step 10 play game
+    Play(){
+        while(this.is_playing){            
+            
+            console.log('\nmove: a/s/w/d');
+            console.log('help: h');
+            let input_direction = prompt('Please specifie your direction: ')
+            switch (input_direction) {
+                case 'w':   this.player.position_y--         
+                            this.SetPositionPlayer()  
+                            this.PrintMap()                                                                
+                break;
+                case 's':   this.player.position_y++  
+                            this.SetPositionPlayer()       
+                            this.PrintMap()                                                                
+                break;
+                case 'a':   this.player.position_x--  
+                            this.SetPositionPlayer()       
+                            this.PrintMap()                                                                
+                break;
+                case 'd':   this.player.position_x++  
+                            this.SetPositionPlayer()       
+                            this.PrintMap()                                                                
+                break;
+                
+                case 'h':   this.OptionalHelp()                                                              
+                break;            
+
+            
+                default:
+                    break;
+            }
+        }
+    }
+
+    //step 11 help 
+    OptionalHelp(){
+        console.log('\nHelp')
+        console.log(`   current your posiotion: [${this.player.position_x} , ${this.player.position_y}]`)
+        console.log(`   Character: ${icon_Character}`)
+        console.log(`   field: ${icon_field}`)
+        console.log(`   hat: ${icon_hat}`)
+        console.log(`   hole: ${icon_hole}`)        
+    }
+
 
 
     //step sum  total method
-    PlayGame(){
+    GameController(){
         this.StartGame()
-        this.DefineFieldSize()
-        this.CreateField_Column()
-        this.CreateField_Row()
-        this.PrintMap()
+        if(this.is_playing){
+            this.DefineFieldSize()
+            this.CreateField_Column()
+            this.CreateField_Row()
+            this.PrintMap()
+            this.SetPositionPlayer()
+            this.Random_Hat()
+            this.Random_Trap()
+            this.PrintMap()
+            this.Play()
+        }
     }
 
 
 }
 
 let object1 = new Field()
-object1.PlayGame()
+object1.GameController()
 console.log(object1)
+// object1.Random_Hat()
+// object1.PrintMap()
