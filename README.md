@@ -18,10 +18,14 @@
 ## Asset
 ### package
 [prompt-sync](https://www.npmjs.com/package/prompt-sync)
+
 [clear-screen](https://www.npmjs.com/package/clear-screen)
 
 ### icon
 😀: [player](https://emojipedia.org/grinning-face)
+
 🥽: [hat](https://emojipedia.org/goggles)
+
 🟦: [field](https://emojicombos.com/soil)
+
 🚧: [hole](https://emojipedia.org/construction)
