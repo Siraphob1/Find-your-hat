@@ -15,15 +15,16 @@ const prompt = require('prompt-sync')({sigint: true});
 const clear = require('clear-screen');
 
 //Set symbol 
-const hat = '^';
-const hole = 'O';
-const fieldCharacter = '░';
-const pathCharacter = '*';
+const symbol_hat = '^';
+const symbol_hole = 'O';
+const symbol_field = '░';
+const symbol_Character = '*';
 
 
 //Step1 Create class Field
 class Field{
     constructor(){
+        this.fieldgame = []
         this.field_row = 3
         this.field_column = 3
         this.player ={
@@ -49,10 +50,39 @@ class Field{
         this.field_column = input_column;
     }
 
+    //step 4 create field each column
+    CreateField_Column(){
+        let each_row = []
+        for (let i = 0; i < this.field_column; i++) {
+            each_row.push(symbol_field)            
+        }
+        return each_row
+    }
+
+    //step 5 create field each row
+    CreateField_Row(){
+        for (let i = 0; i < this.field_row; i++) {         
+            this.fieldgame.push(this.CreateField_Column())
+        }
+    }
+
+    //step 6 Display Map
+    PrintMap(){
+        for (let i = 0; i < this.fieldgame.length; i++) {
+            console.log(this.fieldgame[i].join(''))            
+        }
+    }
+
+    
+
+
     //step sum  total method
     PlayGame(){
         this.StartGame()
         this.DefineFieldSize()
+        this.CreateField_Column()
+        this.CreateField_Row()
+        this.PrintMap()
     }
 
 
