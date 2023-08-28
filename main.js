@@ -101,7 +101,9 @@ class Field{
 
     //step 7 set default position
     SetPositionPlayer(){
-        this.fieldgame[this.player.position_y][this.player.position_x] = icon_Character
+        if(this.is_playing){
+            this.fieldgame[this.player.position_y][this.player.position_x] = icon_Character
+        }
     }
 
     //step 8 random hat
@@ -153,19 +155,23 @@ class Field{
             console.log('help: h');
             let input_direction = prompt('Please specifie your direction: ')
             switch (input_direction) {
-                case 'w':   this.PlayerMove(0,-1)         
+                case 'w':   this.ResetPrevPosition()
+                            this.PlayerMove(0,-1)         
                             this.SetPositionPlayer()  
                             this.PrintMap()                                                                
                 break;
-                case 's':   this.PlayerMove(0,1)  
+                case 's':   this.ResetPrevPosition()
+                            this.PlayerMove(0,1)  
                             this.SetPositionPlayer()                                  
                             this.PrintMap()                                                                
                 break;
-                case 'a':   this.PlayerMove(-1,0)
+                case 'a':   this.ResetPrevPosition()
+                            this.PlayerMove(-1,0)
                             this.SetPositionPlayer()
                             this.PrintMap()                                                                
                 break;
-                case 'd':   this.PlayerMove(1,0)  
+                case 'd':   this.ResetPrevPosition()
+                            this.PlayerMove(1,0)  
                             this.SetPositionPlayer()  
                             this.PrintMap()                                                                
                 break;
@@ -207,21 +213,43 @@ class Field{
     //step 12 check detect target
     CheckDetect(new_posx , new_posy){
         clear()
+        if(new_posx < 0 || new_posx >this.fieldgame[0].length-1){
+            console.log(`You lose 💀💀💀`)
+            console.log(`You crash wall`)
+            this.is_playing =false
+            return
+        }
+        if(new_posy < 0 || new_posy >this.fieldgame.length-1){
+            console.log(`You lose 💀💀💀`)
+            console.log(`You crash wall`)
+            this.is_playing =false
+            return
+        }
+
         if(this.fieldgame[new_posy][new_posx] === icon_hole){
             console.log(`You lose 💀💀💀`)
             console.log(`You fall in hole`)
             this.is_playing =false
+            return
         }
         else if(this.fieldgame[new_posy][new_posx] === icon_hat){            
             console.log(`You win 🎉🎉🎉`)
             console.log(`Congratulation: You find your hat`)  
             this.is_playing =false
+            return
         }
+        else if(this.fieldgame[new_posy][new_posx] === icon_field){
+            return
+        }
+        
 
       
     }
 
-
+    //step 13 reset prev position
+    ResetPrevPosition(){
+        this.fieldgame[this.player.position_y][this.player.position_x] = icon_field
+    }
 
     //step sum  total method
     GameController(){
