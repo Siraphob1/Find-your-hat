@@ -33,6 +33,11 @@ class Field{
         }
         this.is_playing = false
         this.is_win = false
+        this.trap ={
+            count: 1,
+            count_row:1,
+            count_column:1
+        }
     }
 
     //step 2 Start game
@@ -42,7 +47,7 @@ class Field{
 
         let input_player = prompt('Press p for play game: ');
         if(input_player === 'p' || input_player === 'P') this.is_playing = true;     
-        }        
+    }        
          
     //step 3 player define row & column
     DefineFieldSize(){
@@ -70,9 +75,7 @@ class Field{
               isformat_column = true
              
             }
-          }                  
-
-
+          }    
 
     }
 
@@ -134,7 +137,24 @@ class Field{
         this.fieldgame[position_y][position_x] = icon_hat;
     }
 
-    //step 9 random trap
+    //step 9.1 Calcurate count of Trap
+    CalCount_Trap(){
+        let trap_row = Math.floor(this.field_row/2);
+        let trap_column = Math.floor(this.field_column/2);
+
+        this.trap.count_row = trap_row;
+        this.trap.count_column = trap_column;
+        this.trap.count = trap_row * trap_column;
+    }
+
+    //step 9.2 Set Trap
+    SetTrap(){
+        for (let i = 0; i < this.trap.count; i++) {         
+            this.Random_Trap()
+        }
+    }
+
+    //step 9.3 random trap
     Random_Trap(){
         
         let position_x = 0;
@@ -146,7 +166,7 @@ class Field{
             position_x =  Math.floor(Math.random() * (this.field_column));  
             position_y =  Math.floor(Math.random() * (this.field_row));        
           
-            if(position_x !== this.player.position_x && position_y !== this.player.position_y){                
+            if(this.fieldgame[position_y][position_x] === icon_field){                
                 this.fieldgame[position_y][position_x] = icon_hole   
                 random_finish =true             
             }            
@@ -219,7 +239,7 @@ class Field{
         this.player.position_y = new_posy;
     }
 
-    //step 12 check detect target
+    //step 13 check detect target
     CheckDetect(new_posx , new_posy){
         clear()
         if(new_posx < 0 || new_posx >this.fieldgame[0].length-1){
@@ -255,21 +275,30 @@ class Field{
       
     }
 
-    //step 13 reset prev position
+    //step 14 reset prev position
     ResetPrevPosition(){
         this.fieldgame[this.player.position_y][this.player.position_x] = icon_field
+    }
+
+    //step 15 group
+    SettingField(){
+        this.DefineFieldSize()
+        this.CreateField_Column()
+        this.CreateField_Row()
+    }
+    SettingComponentInField(){
+        this.Random_Player()            
+        this.Random_Hat()
+        this.CalCount_Trap()
+        this.SetTrap()
     }
 
     //step sum  total method
     GameController(){
         this.StartGame()
         if(this.is_playing){
-            this.DefineFieldSize()
-            this.CreateField_Column()
-            this.CreateField_Row()
-            this.Random_Player()            
-            this.Random_Hat()
-            this.Random_Trap()
+            this.SettingField()
+            this.SettingComponentInField()
             clear()
             this.PrintMap()
             this.Play()
@@ -281,3 +310,5 @@ class Field{
 
 let object1 = new Field()
 object1.GameController()
+
+
